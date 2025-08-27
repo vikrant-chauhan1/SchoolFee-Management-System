@@ -17,11 +17,16 @@ const Login = () => {
       });
 
       const data = await res.json();
+      console.log(data);
+      
+      
 
       if (data.success) {
-        localStorage.setItem("isAdmin", "true");
-        localStorage.setItem("adminUser", JSON.stringify(data.admin));
-        console.log("Login success");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("adminUser",JSON.stringify(data.adminInfo)); 
+        //we are using the stringify because loacal storage only stores strings and if we put object in LS it will crash 
+        // thus we use stringify to serialize it and it works for token above because token is already a string 
+
         navigate("/dashboard");
       } else {
         alert("invalid credentials")

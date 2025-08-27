@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 
 const App=()=>{
-  const isAdmin = localStorage.getItem("isAdmin")=== "true";
+  const isAdmin = !!localStorage.getItem("token"); // !! is used to quickly make the variable a boolean one exists = true, null= false
 
   return(
     <BrowserRouter>

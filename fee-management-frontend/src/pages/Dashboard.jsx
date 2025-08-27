@@ -5,7 +5,7 @@ const Dashboard =()=>{
     const navigate = useNavigate();
     
     useEffect(()=>{
-        if(!localStorage.getItem("isAdmin")){
+        if(!localStorage.getItem("token")){
             navigate("/login")
         }
     },[navigate]); //the navigate in dependency array is just to satisfy eslint rules of not leaving the array empty 
@@ -14,13 +14,16 @@ const Dashboard =()=>{
 
 
     const handleLogout = ()=>{
-        localStorage.removeItem("isAdmin");
+        localStorage.removeItem("token");
         navigate("/");
     };
 
+    const adminInfo = JSON.parse(localStorage.getItem("adminUser"));
+    console.log(adminInfo);
+
     return(
         <div style={{ textAlign: "center", marginTop: "100px" }}>
-            <h2>Welcome, Admin 👋</h2>
+            <h2>Welcome, {adminInfo.userName} 👋</h2>
             <p>This is your dashboard.</p>
             <button onClick={handleLogout}>Logout</button>
         </div>
