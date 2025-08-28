@@ -72,3 +72,4 @@ export const updateStudent = async(req,res)=>{
 
 };
 
+// DELETE a student 
