@@ -29,3 +29,5 @@ things are going to flow tis way in the app:
 📆 Monthly or class-wise fee collection summary
 
 📥 Export to PDF/Excel
+
+
