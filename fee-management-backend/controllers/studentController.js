@@ -1,5 +1,7 @@
 import pool from "../db.js"
 
+// API FOR MANAGING STUDENTS BY ADMINS
+
 //GET all the students
 
 export const getAllStudents = async (req,res)=>{
@@ -73,3 +75,36 @@ export const updateStudent = async(req,res)=>{
 };
 
 // DELETE a student 
+
+export const deleteStudent = async(req,res)=>{
+    const id = req.params.id;
+    try {
+        const result = pool.query("DELETE FROM students where id=$1",[id]);
+        if(result.rowCount===0){
+            return res.status(404).json({message:"Student not found"});
+
+        }
+        res.json({message:"Student deleted sucessfully"});
+    } catch (error) {
+        res.status(500).json({message:"Error deleting student"});
+        
+    }
+};
+
+// LOOKING UP ALL THE STUDENTS IN A CLASS
+
+export const studentByClass = async(req,res) =>{
+    const studentClassForFilter = req.params.class;
+    try {
+        const result = pool.query("RETURN * FROM students WHERE class=$1",[studentClassForFilter]);
+        if(result.rows.length===0){
+            return res.status(401).json({message:"No student found"});
+        }
+        res.josn(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message:"Error getting students"});
+        
+    }
+
+}; 

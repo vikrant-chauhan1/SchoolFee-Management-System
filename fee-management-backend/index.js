@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import adminRoutes from "./routes/adminRoutes.js"
+import studentRoutes from "./routes/studentRoutes.js"
 
 const app = express();
 
