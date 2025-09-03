@@ -21,7 +21,7 @@ export const getAllStudents = async (req,res)=>{
 
 export const getStudentById= async(req,res)=>{
     try {
-        const result = pool.query("SELECT * FROM students WHERE id=$1",[req.params.id]);
+        const result = await pool.query("SELECT * FROM students WHERE id=$1",[req.params.id]);
         if( result.rows.length===0){
             return res.status(404).json({message:"Student not found for this ID"})
         }
@@ -86,7 +86,7 @@ export const deleteStudent = async(req,res)=>{
         }
         res.json({message:"Student deleted sucessfully"});
     } catch (error) {
-        res.status(500).json({message:"Error deleting student"});
+        res.status(500).json({message:"Error deleting student"}); 
         
     }
 };
@@ -94,7 +94,7 @@ export const deleteStudent = async(req,res)=>{
 // LOOKING UP ALL THE STUDENTS IN A CLASS
 
 export const studentByClass = async(req,res) =>{
-    const studentClassForFilter = req.params.class;
+    const studentClassForFilter = req.params.className;
     try {
         const result = pool.query("RETURN * FROM students WHERE class=$1",[studentClassForFilter]);
         if(result.rows.length===0){

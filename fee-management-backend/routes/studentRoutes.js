@@ -14,14 +14,14 @@ const router = express.Router();
 
 
 // SPECIFIC ROUTES
-router.get("/class",verifyToken,studentByClass)
+router.get("/class/:className",verifyToken,studentByClass)
 
 // GENERIC ROUTES
 router.get("/",verifyToken,getAllStudents);
 router.get("/:id",verifyToken,getStudentById);
 router.post("/",verifyToken,addStudent);
 router.put("/:id",verifyToken,updateStudent);
-router.delete("/:id",verifyToken,deleteStudent);
+router.delete("/:id",verifyToken,deleteStudent); 
 
 
 export default router;
