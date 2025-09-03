@@ -36,15 +36,17 @@ export const getStudentById= async(req,res)=>{
 // ADD a student 
 
 export const addStudent = async(req,res)=>{
+
+    //TODO - REMOVE THE CONSTRAINT FROM THE ROLL NUMBER COLUMN FOR BEING UNIQUE IN POSTGRES
     
-    const {name,class:studentClass,roll_no,contact,address}= req.body;
+    const {name,class:studentClass,roll_number,contact,address}= req.body;
     try {
-        const result = await pool.query("INSERT INTO students (name, class, roll_no, contact, address) VALUES ($1,$2,$3,$4,$5) RETURNING * ",
-        [name,studentClass,roll_no,contact,address]);
+        const result = await pool.query("INSERT INTO students (name, class, roll_number, contact, address) VALUES ($1,$2,$3,$4,$5) RETURNING * ",
+        [name,studentClass,roll_number,contact,address]);
 
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        console.error(err);
+        console.error(error);
         res.status(500).json({message:"Error adding student"});
 
         
@@ -56,11 +58,11 @@ export const addStudent = async(req,res)=>{
 
 export const updateStudent = async(req,res)=>{
     const {id} = req.params;
-    const { name, class: studentClass, roll_no, contact, address } = req.body;
+    const { name, class: studentClass, roll_number, contact, address } = req.body;
     
     try {
-        const  result = await pool.query("UPDATE students SET name=$1, class=$2, roll_no=$3, contact=$4, address=$5 WHERE id=$6 RETURNING *",
-            [name,studentClass,roll_no,contact,address,id]
+        const  result = await pool.query("UPDATE students SET name=$1, class=$2, roll_number=$3, contact=$4, address=$5 WHERE id=$6 RETURNING *",
+            [name,studentClass,roll_number,contact,address,id]
         );
         if(result.rows.length === 0){
             return res.status(404).json({message:"Student not found"});
@@ -68,8 +70,8 @@ export const updateStudent = async(req,res)=>{
         res.status(200).json(result.rows[0]);
 
     } catch (error) {
-        console.error(err);
-        res.status(500).json({message:"Error updating student"})
+        console.error(error);
+        res.status(500).json({message:"Error updating student"}) 
     }
 
 };
@@ -96,11 +98,11 @@ export const deleteStudent = async(req,res)=>{
 export const studentByClass = async(req,res) =>{
     const studentClassForFilter = req.params.className;
     try {
-        const result = pool.query("RETURN * FROM students WHERE class=$1",[studentClassForFilter]);
+        const result = await pool.query("SELECT * FROM students WHERE class=$1",[studentClassForFilter]);
         if(result.rows.length===0){
             return res.status(401).json({message:"No student found"});
         }
-        res.josn(result);
+        res.json(result.rows);
     } catch (error) {
         console.error(error);
         res.status(500).json({message:"Error getting students"});
