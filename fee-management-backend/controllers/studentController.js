@@ -17,6 +17,25 @@ export const getAllStudents = async (req,res)=>{
 
 };
 
+// GET STUDENTS BY NAME
+
+export const getStudentByName = async(req,res)=>{
+    //const nameForSearching= req.params.studentName;
+    try {
+        const result = await pool.query("SELECT * FROM students WHERE name ILIKE $1 ",[`%${req.params.studentName}%`]);
+        if(result.rows.length===0){
+            return res.status(404).json({message:"No student found with that name"});
+        }
+        res.status(200).json(result.rows);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message:"Error getting students"});
+
+        
+    } 
+}
+
 // GET single student by id 
 
 export const getStudentById= async(req,res)=>{
@@ -27,7 +46,7 @@ export const getStudentById= async(req,res)=>{
         }
         res.json(result.rows[0]);
     } catch (error) {
-        console.error(err);
+        console.error(error);
         res.status(500).json({message:"Error fetching students by id"});
         
     }

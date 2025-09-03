@@ -16,7 +16,7 @@ const router = express.Router();
 
 // SPECIFIC ROUTES
 router.get("/class/:className",verifyToken,studentByClass) //CHECKED
-router.get("/name",verifyToken,getStudentByName);
+router.get("/name/:studentName",verifyToken,getStudentByName);// CHECKED
 
 // GENERIC ROUTES
 router.get("/",verifyToken,getAllStudents); //CHECKED
