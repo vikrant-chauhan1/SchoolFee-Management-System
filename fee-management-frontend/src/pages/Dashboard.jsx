@@ -1,5 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+// simple dashboard layout planning
+// gonna show a simple navbar above with three options including students,fees and logout
+// hero section will just be a welcome screen for the admin and a TODO in the end that will simply use local storage
 
 const Dashboard =()=>{
     const navigate = useNavigate();
@@ -22,11 +26,13 @@ const Dashboard =()=>{
     console.log(adminInfo);
 
     return(
-        <div style={{ textAlign: "center", marginTop: "100px" }}>
-            <h2>Welcome, {adminInfo.userName} 👋</h2>
-            <p>This is your dashboard.</p>
-            <button onClick={handleLogout}>Logout</button>
-        </div>
+        <div>
+            <div style={{ textAlign: "center", marginTop: "100px" }}>
+                <h2>Welcome, {adminInfo.userName} 👋</h2>
+                <p>This is your dashboard.</p>
+                <button onClick={handleLogout}>Logout</button>
+            </div>
+        </div>    
     );
 }
 
