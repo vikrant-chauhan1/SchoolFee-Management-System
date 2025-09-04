@@ -27,10 +27,15 @@ const Dashboard =()=>{
 
     return(
         <div>
+
+            <Navbar onLogout={handleLogout} />  
             <div style={{ textAlign: "center", marginTop: "100px" }}>
                 <h2>Welcome, {adminInfo.userName} 👋</h2>
                 <p>This is your dashboard.</p>
-                <button onClick={handleLogout}>Logout</button>
+                <p style={{marginTop:"50px",fontStyle:"italic"}}>
+                    TODO: Show tasks here from localstorage
+                </p>
+
             </div>
         </div>    
     );
