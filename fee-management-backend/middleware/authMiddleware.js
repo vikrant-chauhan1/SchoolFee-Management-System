@@ -13,7 +13,7 @@ export const verifyToken = (req,res,next)=>{
 
     try {
         const decoded= jwt.verify(token,JWT_SECRET);
-        req.adminInfo= decoded; // attach user data to request 
+        req.adminInfo= decoded; // attach user data to request
         next();
 
     } catch (error) {
