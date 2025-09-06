@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({onLogin}) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,6 +17,7 @@ const Login = () => {
       });
 
       const data = await res.json();
+
       console.log(data);
       
       
@@ -24,6 +25,7 @@ const Login = () => {
       if (data.success) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("adminUser",JSON.stringify(data.adminInfo)); 
+        onLogin();
         //we are using the stringify because loacal storage only stores strings and if we put object in LS it will crash 
         // thus we use stringify to serialize it and it works for token above because token is already a string P
 

@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 // gonna show a simple navbar above with three options including students,fees and logout
 // hero section will just be a welcome screen for the admin and a TODO in the end that will simply use local storage
 
-const Dashboard =()=>{
+const Dashboard =({onLogout})=>{
     const navigate = useNavigate();
     
     useEffect(()=>{
@@ -19,7 +19,9 @@ const Dashboard =()=>{
 
     const handleLogout = ()=>{
         localStorage.removeItem("token");
+        onLogout();
         navigate("/");
+        
     };
 
     const adminInfo = JSON.parse(localStorage.getItem("adminUser"));
