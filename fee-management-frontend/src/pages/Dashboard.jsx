@@ -36,7 +36,7 @@ const Dashboard =()=>{
                     TODO: Show tasks here from localstorage
                 </p>
 
-            </div>
+            </div> 
         </div>    
     );
 }

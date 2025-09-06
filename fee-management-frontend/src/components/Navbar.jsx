@@ -15,14 +15,14 @@ const Navbar = ({onLogout})=>{
         
         > 
             <h3>Admin Dashboard</h3>
-            <div style={{display:"felx",gap:"20px"}}>
+            <div style={{display:"felx",justifyContent:"space-between"}}>
                 <button style={navButtonStyle} onClick={()=>navigate("/students")}>
                     Students
                 </button>
-                <button style={{navButtonStyle}} onClick={()=>navigate("/fees")}>
+                <button style={navButtonStyle} onClick={()=>navigate("/fees")}>
                     Fees
                 </button>
-                <button style={{navButtonStyle}} onClick={onLogout}>
+                <button style={navButtonStyle} onClick={onLogout}>
                     Logout
                 </button>
             </div>
@@ -40,7 +40,7 @@ const navButtonStyle={
     color:"#282c34",
     border:"none",
     borderRadius:"5px",
-    padding:"8px 12px",
+    padding:"8px 12px ",
     cursor:"pointer",
 }
 
