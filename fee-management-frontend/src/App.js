@@ -1,6 +1,7 @@
 import { BrowserRouter,Routes,Route,Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Students from "./pages/Students";
 import {  useState,useEffect } from "react";
 
 const App=()=>{
@@ -19,6 +20,7 @@ const App=()=>{
         <Route path="/" element={isAdmin? <Dashboard onLogout={()=>setIsAdmin(false)} /> : <Login onLogin={()=>setIsAdmin(true)}/>}/>
         <Route path="/dashboard" element={isAdmin ? <Dashboard onLogout={()=>setIsAdmin(false)}/> : <Navigate to="/"/>}/>
         <Route path="/login" element={isAdmin? <Navigate to="/dashboard" /> : <Login onLogin={()=>setIsAdmin(true)}/>} />
+        <Route path="/students" element={<Students />} />
       </Routes>
     
     </BrowserRouter>

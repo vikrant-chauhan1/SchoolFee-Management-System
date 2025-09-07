@@ -19,7 +19,7 @@ export const loginAdmin = async (req,res)=>{
 
         // generating the token 
 
-        const token = jwt.sign({id:admin.id,username:admin.username,additionalInfo:"you are being tracked and logged"},JWT_SECRET,{expiresIn:"1h"});
+        const token = jwt.sign({id:admin.id,username:admin.username,additionalInfo:"you are being tracked and logged"},JWT_SECRET,{expiresIn:"6h"});
         const adminInfo = {id:admin.id,userName:admin.username};
         res.status(200).json({success:true,token,adminInfo});
     } catch (err) {
