@@ -5,10 +5,11 @@ const Students = ()=>{
     const [students,setStudents] = useState([]);
     const [studentByName,setStudentByName] = useState([]);
     const [studentName,setStudentName] = useState("")
+    const [error,setError] = useState("")
     
     // GETTING ALL THE STUDENTS
     const getAllStudents = async(e)=>{
-        e.preventDefault();
+        
         try {
             const token = localStorage.getItem("token");
             const res = await fetch("http://localhost:5000/api/students",{
@@ -34,7 +35,8 @@ const Students = ()=>{
     
     //GETTING STUDENTS BY NAME 
     const getStudentsByName = async (e)=>{
-        e.preventDefault();
+
+        setStudentByName([]);
         try {
             const token = localStorage.getItem("token")
             const res = await axios.get(`http://localhost:5000/api/students/name/${studentName}`,
@@ -44,12 +46,11 @@ const Students = ()=>{
                     },
                 }
             );
-            if(!res.ok){
-                throw new Error("server error or forbidden getting student using names");
-            }
-            const data = await res.json();
-            setStudentByName(data);
+           
+            
+            setStudentByName(res.data);
         } catch (error) {
+            setError("No Student found");
             console.error("Error fetching student using name",error);
             
         }
@@ -63,7 +64,7 @@ const Students = ()=>{
                 <button onClick={getAllStudents}>Get All Students</button> 
                 <ul>
                     {students.map((s,index)=>(
-                        <li key={index}> <h2>{s.name} </h2> {s.roll_number} {s.class} {s.contact} {s.address}</li>
+                        <li key={index}> <h2>{s.name} </h2> <p>Roll No: {s.roll_number}</p> <p>Class: {s.class}</p> <p>Contact: {s.contact}</p><p>Address: {s.address}</p></li>
                         
 
                     ))}
@@ -73,7 +74,7 @@ const Students = ()=>{
             <div>
                 <input
                     type="text"
-                    value={studentByName}
+                    value={studentName}
                     onChange={(e)=>setStudentName(e.target.value)}
                     placeholder="Enter student name"
 
@@ -81,19 +82,21 @@ const Students = ()=>{
                 />
                 <button onClick={getStudentsByName}>Search</button>
 
-                {studentByName ? 
+                {studentByName.length > 0 ? 
                     <div>
                        <ul>
                             {studentByName.map((s,index)=>(
-                                <li key={index}><h1>{s.name}</h1> <h2>{s.roll_number}</h2> <h2>{s.class}</h2> <h3>{s.contact}</h3> <h3>{s.address}</h3> </li>
+                                <li key={index}><h3>{s.name}</h3> <p>Roll No: {s.roll_number}</p> <p>Class: {s.class}</p> <p>Contact: {s.contact}</p><p>Address: {s.address}</p> </li>
 
                             ))}
                        </ul>
                         
                      </div>
                 
-                :<div></div>
-                };
+                :<div>
+                    {error ? <p>{error}</p>:<p>enter name to search</p>}
+                </div>
+                }
                 
             </div>
 
