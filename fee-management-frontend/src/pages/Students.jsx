@@ -4,8 +4,11 @@ import axios from "axios"
 const Students = ()=>{
     const [students,setStudents] = useState([]);
     const [studentByName,setStudentByName] = useState([]);
-    const [studentName,setStudentName] = useState("")
-    const [error,setError] = useState("")
+    const [studentName,setStudentName] = useState("");
+    const [error,setError] = useState("");
+    const [id,setId] = useState("");
+    const [studentById,setStudentById] = useState("")
+
     
     // GETTING ALL THE STUDENTS
     const getAllStudents = async(e)=>{
@@ -56,7 +59,30 @@ const Students = ()=>{
         }
 
 
+    };
+
+    //GETTING STUDENTS BY ID 
+    const getStudentById = async(e)=>{
+        const token = localStorage.getItem("token");
+        try {
+            const res = await axios.get(`http://localhost:5000/api/students/${id}`,
+                {
+                    headers:{
+                        Authorization:`Bearer ${token}`
+                    }
+                }
+            );
+            setStudentById(res.data);
+
+        } catch (error) {
+            setError("No student found for this Id");
+            console.error(error);
+            
+        }
     }
+
+
+
 
     return(
         <div>
@@ -98,6 +124,18 @@ const Students = ()=>{
                 </div>
                 }
                 
+            </div>
+            <div>
+                <input 
+                    type="text"
+                    placeholder="Enter the ID"
+                    value={id}
+                    onChange={(e)=>setId(e.target.value)}
+
+                
+                />
+                <button onClick={getStudentById}>Search</button>
+                {studentById?<p>{studentById.name}</p>:<p>nothing to see here nigga</p>}
             </div>
 
         </div>
