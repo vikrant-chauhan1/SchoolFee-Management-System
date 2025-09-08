@@ -7,7 +7,8 @@ const Students = ()=>{
     const [studentName,setStudentName] = useState("");
     const [error,setError] = useState("");
     const [id,setId] = useState("");
-    const [studentById,setStudentById] = useState("")
+    const [studentById,setStudentById] = useState(null)
+    const [error1,setError1] = useState("");
 
     
     // GETTING ALL THE STUDENTS
@@ -29,6 +30,7 @@ const Students = ()=>{
             }
             const data = await res.json();
             setStudents(data);
+            
 
         } catch (error) {
             console.error("Error fetching students",error);
@@ -50,8 +52,9 @@ const Students = ()=>{
                 }
             );
            
-            
+            setError("")
             setStudentByName(res.data);
+
         } catch (error) {
             setError("No Student found");
             console.error("Error fetching student using name",error);
@@ -63,6 +66,7 @@ const Students = ()=>{
 
     //GETTING STUDENTS BY ID 
     const getStudentById = async(e)=>{
+        setStudentById(null)
         const token = localStorage.getItem("token");
         try {
             const res = await axios.get(`http://localhost:5000/api/students/${id}`,
@@ -72,10 +76,11 @@ const Students = ()=>{
                     }
                 }
             );
+            setError1("")
             setStudentById(res.data);
 
         } catch (error) {
-            setError("No student found for this Id");
+            setError1("No student found for this Id");
             console.error(error);
             
         }
@@ -90,7 +95,7 @@ const Students = ()=>{
                 <button onClick={getAllStudents}>Get All Students</button> 
                 <ul>
                     {students.map((s,index)=>(
-                        <li key={index}> <h2>{s.name} </h2> <p>Roll No: {s.roll_number}</p> <p>Class: {s.class}</p> <p>Contact: {s.contact}</p><p>Address: {s.address}</p></li>
+                        <li key={s.class}> <h2>{s.name} </h2> <p>Roll No: {s.roll_number}</p> <p>Class: {s.class}</p> <p>Contact: {s.contact}</p><p>Address: {s.address}</p></li>
                         
 
                     ))}
@@ -135,7 +140,10 @@ const Students = ()=>{
                 
                 />
                 <button onClick={getStudentById}>Search</button>
-                {studentById?<p>{studentById.name}</p>:<p>nothing to see here nigga</p>}
+                {studentById?<ul><li><h3>{studentById.name}</h3> <p>Roll No: {studentById.roll_number}</p> <p>Class: {studentById.class}</p> <p>Contact: {studentById.contact}</p><p>Address: {studentById.address}</p></li></ul>
+                    :
+                    <div> {error1 ? <h5>{error1} </h5> : <p>Enter the ID</p>} </div>
+                }
             </div>
 
         </div>
