@@ -94,7 +94,7 @@ const Students = ()=>{
         const token = localStorage.getItem("token");
         SetStudentByClass([]);
         try {
-            const res = await axios.get(`http://localhost3000/api/students/class/${studentClass}`,{
+            const res = await axios.get(`http://localhost:5000/api/students/class/${studentClass}`,{
                 headers:{
                     Authorization:`Bearer ${token}`
 
@@ -181,16 +181,18 @@ const Students = ()=>{
                 />
                 <button onClick={getStudentsByClass}>Search</button>
                 <div>
-                    {studentByClass? 
+                    {studentByClass.length > 0? 
                         <div> 
                             <ul>
                                 {studentByClass.map((s,index)=>(
                                     <li key={index}><h3>{s.name}</h3> <p>Roll No: {s.roll_number}</p> <p>Class: {s.class}</p> <p>Contact: {s.contact}</p><p>Address: {s.address}</p></li>
                                 ))}
                             </ul>
-                        </ div> 
+                        </div> 
                         : 
-                        <p>Nothing to see here</p>
+                        <div> 
+                             {error2 ? <h3>{error2}</h3>: <p>Enter the class here</p>}
+                         </div>
                     }
 
                 </div>
