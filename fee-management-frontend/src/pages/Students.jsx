@@ -172,6 +172,32 @@ const Students = ()=>{
                 }
             </div>
 
+            <div>
+                <input
+                    type="text"
+                    placeholder="Enter the class"
+                    value={studentClass}
+                    onChange={(e)=>setStudentClass(e.target.value)}
+                />
+                <button onClick={getStudentsByClass}>Search</button>
+                <div>
+                    {studentByClass? 
+                        <div> 
+                            <ul>
+                                {studentByClass.map((s,index)=>(
+                                    <li key={index}><h3>{s.name}</h3> <p>Roll No: {s.roll_number}</p> <p>Class: {s.class}</p> <p>Contact: {s.contact}</p><p>Address: {s.address}</p></li>
+                                ))}
+                            </ul>
+                        </ div> 
+                        : 
+                        <p>Nothing to see here</p>
+                    }
+
+                </div>
+
+
+            </div>
+
         </div>
     );
 
