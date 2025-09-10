@@ -12,8 +12,15 @@ const Students = ()=>{
     const [studentByClass,SetStudentByClass]= useState([]);
     const [error2,setError2] = useState(null);
     const [studentClass,setStudentClass] = useState("");
+    const [addedStudent,setAddedStudent]=useState([]);
+    const [name,setName] = useState(""); 
+    const [studentClassToAdd,setStudentClassToAdd] = useState("");
+    const [roll_number,setRoll_number] = useState("");
+    const [contact,setContact] = useState("");
+    const [address,setAddress] = useState("");
 
-    
+
+    // GET FUNC
     // GETTING ALL THE STUDENTS
     const getAllStudents = async(e)=>{
         
@@ -100,16 +107,46 @@ const Students = ()=>{
 
                 }
             });
-            setError2(null)
+            setError2(null);
             SetStudentByClass(res.data);
         } catch (error) {
             setError2("No Student found in this class");
-            console.error(error)
+            console.error(error);
 
             
         }
 
     }
+
+    // POST FUNC
+    const addStudent = async(e)=>{
+        const token = localStorage.getItem("token");
+        setAddedStudent([]);
+        
+        try {
+            const res = await axios.post(`http://localhost:5000/api/students`,
+                {
+                    name,
+                    class:studentClassToAdd,
+                    roll_number,
+                    contact,
+                    address
+                },
+                {
+                    headers:{
+                    Authorization:`Bearer ${token}`
+                    }
+                }
+                
+                
+            )
+            setAddedStudent(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
 
 
 
@@ -198,6 +235,27 @@ const Students = ()=>{
                 </div>
 
 
+            </div>
+
+            <div>
+                <form  onSubmit={addStudent}>
+                    <input type="text" placeholder="enter the name" value={name} onChange={(e)=>setName(e.target.value)}/>
+                    <input type="text" placeholder="enter the class" value={studentClassToAdd} onChange={(e)=>setStudentClassToAdd(e.target.value)} />
+                    <input type="text" placeholder="enter the roll number" value={roll_number} onChange={(e)=>setRoll_number(e.target.value)} />
+                    <input type="text" placeholder="enter the contact number" value={contact} onChange={(e)=>setContact(e.target.value)} />
+                    <input type="text" placeholder="enter student address" value={address} onChange={(e)=>setAddress(e.target.value)}/>
+                    <button type="submit">submit</button>
+                </form>
+
+                <div>
+                    {addedStudent.length > 0
+                        ?
+                    <div> {addedStudent.map((s,index)=>(
+                        <li key={index}><h3>{s.name}</h3> <p>Roll No: {s.roll_number}</p> <p>Class: {s.class}</p> <p>Contact: {s.contact}</p><p>Address: {s.address}</p></li>
+                    ))} </div>
+                        :
+                    <p>fill the form to add student</p>}
+                </div>
             </div>
 
         </div>
