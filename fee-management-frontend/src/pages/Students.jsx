@@ -9,6 +9,9 @@ const Students = ()=>{
     const [id,setId] = useState("");
     const [studentById,setStudentById] = useState(null)
     const [error1,setError1] = useState("");
+    const [studentByClass,SetStudentByClass]= useState([]);
+    const [error2,setError2] = useState(null);
+    const [studentClass,setStudentClass] = useState("");
 
     
     // GETTING ALL THE STUDENTS
@@ -84,7 +87,30 @@ const Students = ()=>{
             console.error(error);
             
         }
+    };
+
+    // GETTING STUDENTS BY CLASS
+    const getStudentsByClass = async(e) =>{
+        const token = localStorage.getItem("token");
+        SetStudentByClass([]);
+        try {
+            const res = await axios.get(`http://localhost3000/api/students/class/${studentClass}`,{
+                headers:{
+                    Authorization:`Bearer ${token}`
+
+                }
+            });
+            setError2(null)
+            SetStudentByClass(res.data);
+        } catch (error) {
+            setError2("No Student found in this class");
+            console.error(error)
+
+            
+        }
+
     }
+
 
 
 
