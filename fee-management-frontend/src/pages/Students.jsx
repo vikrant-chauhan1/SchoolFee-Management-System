@@ -127,8 +127,13 @@ const Students = ()=>{
         e.preventDefault();
         const token = localStorage.getItem("token");
         setAddedStudent(null);
+          if(!name || !studentClassToAdd || !roll_number || !contact || !address){
+                alert("please fill the required fields")
+                return
+            }
         
         try {
+           
             const res = await axios.post(`http://localhost:5000/api/students`,
                 {
                     name,
@@ -164,8 +169,13 @@ const Students = ()=>{
         e.preventDefault();
         const token = localStorage.getItem("token");
         setUpdatedStudent(null);
+        if(!name || !studentClassToAdd || !roll_number || !contact || !address || !idToUpdateStudent){
+            alert("please fill the required fields");
+            return
+        }
         try {
-            const res = await axios.put(`http://localhost:5000/api/student/${idToUpdateStudent}`,
+            
+            const res = await axios.put(`http://localhost:5000/api/students/${idToUpdateStudent}`,
                 {
                     name,
                     class:studentClassToAdd,
@@ -182,12 +192,13 @@ const Students = ()=>{
                 }
             )
             setUpdatedStudent(res.data);
-            setAddedStudent(res.data);
+            
             setName("");
             setStudentClassToAdd("");
             setRoll_number("");
             setContact("");
             setAddress("");
+            setUpdateModal(false);
 
 
 
@@ -210,7 +221,7 @@ const Students = ()=>{
                 <button onClick={getAllStudents}>Get All Students</button> 
                 <ul>
                     {students.map((s,index)=>(
-                        <li key={s.class}> <h2>{s.name} </h2> <p>Roll No: {s.roll_number}</p> <p>Class: {s.class}</p> <p>Contact: {s.contact}</p><p>Address: {s.address}</p></li>
+                        <li key={s.class}> <h2>{s.name} </h2> <p>ID:{s.id}</p> <p>Roll No: {s.roll_number}</p> <p>Class: {s.class}</p> <p>Contact: {s.contact}</p><p>Address: {s.address}</p></li>
                         
 
                     ))}
@@ -325,6 +336,7 @@ const Students = ()=>{
                 <button onClick={()=>setUpdateModal(true)}>Update Student</button>
                 {updateModal? 
                 <div>
+                    <input type="text" required placeholder="Enter Student Id" value={idToUpdateStudent} onChange={(e)=>setIdToUpdateStudent(e.target.value)} />
                     <form onSubmit={updateStudent}>
                         <input type="text" placeholder="enter the name" value={name} onChange={(e)=>setName(e.target.value)}/>
                         <input type="text" placeholder="enter the class" value={studentClassToAdd} onChange={(e)=>setStudentClassToAdd(e.target.value)} />
@@ -341,10 +353,10 @@ const Students = ()=>{
                         <ul>
                             <li>
                                 <h1>{updatedStudent.name}</h1>
-                                <p>{updatedStudent.class}</p>
-                                <p>{updatedStudent.roll_number}</p>
-                                <p>{updatedStudent.contact}</p>
-                                <p>{updatedStudent.address}</p>
+                                <p>Class:{updatedStudent.class}</p>
+                                <p>Roll number:{updatedStudent.roll_number}</p>
+                                <p>Contact:{updatedStudent.contact}</p>
+                                <p>Address:{updatedStudent.address}</p>
                             </li>
                         </ul>
                     </div>
@@ -355,6 +367,9 @@ const Students = ()=>{
                 </div>}
                 
                     
+            </div>
+            <div>
+
             </div>
 
         </div>
