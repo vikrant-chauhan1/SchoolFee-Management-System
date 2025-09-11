@@ -20,6 +20,7 @@ const Students = ()=>{
     const [address,setAddress] = useState("");
     const [updatedStudent,setUpdatedStudent] = useState(null);
     const [idToUpdateStudent,setIdToUpdateStudent] = useState("");
+    const [updateModal,setUpdateModal] = useState(false);
 
 
     // GET FUNC
@@ -146,6 +147,11 @@ const Students = ()=>{
             )
             console.log(res.data);
             setAddedStudent(res.data);
+            setName("");
+            setStudentClassToAdd("");
+            setRoll_number("");
+            setContact("");
+            setAddress("")
         } catch (error) {
             console.error(error);
         }
@@ -156,11 +162,6 @@ const Students = ()=>{
 
     const updateStudent = async(e)=>{
         e.preventDefault();
-        setName("");
-        setStudentClassToAdd("");
-        setRoll_number("");
-        setContact("");
-        setAddress("")
         const token = localStorage.getItem("token");
         setUpdatedStudent(null);
         try {
@@ -181,6 +182,12 @@ const Students = ()=>{
                 }
             )
             setUpdatedStudent(res.data);
+            setAddedStudent(res.data);
+            setName("");
+            setStudentClassToAdd("");
+            setRoll_number("");
+            setContact("");
+            setAddress("");
 
 
 
@@ -311,6 +318,43 @@ const Students = ()=>{
                         :
                     <p>fill the form to add student</p>}
                 </div>
+                
+            </div>
+
+            <div>
+                <button onClick={()=>setUpdateModal(true)}>Update Student</button>
+                {updateModal? 
+                <div>
+                    <form onSubmit={updateStudent}>
+                        <input type="text" placeholder="enter the name" value={name} onChange={(e)=>setName(e.target.value)}/>
+                        <input type="text" placeholder="enter the class" value={studentClassToAdd} onChange={(e)=>setStudentClassToAdd(e.target.value)} />
+                        <input type="text" placeholder="enter the roll number" value={roll_number} onChange={(e)=>setRoll_number(e.target.value)} />
+                        <input type="text" placeholder="enter the contact number" value={contact} onChange={(e)=>setContact(e.target.value)} />
+                        <input type="text" placeholder="enter student address" value={address} onChange={(e)=>setAddress(e.target.value)}/>
+                        <button type="submit">submit</button>
+                        
+                    </form>
+                </div>
+                    :
+                <div>{updatedStudent?
+                    <div>
+                        <ul>
+                            <li>
+                                <h1>{updatedStudent.name}</h1>
+                                <p>{updatedStudent.class}</p>
+                                <p>{updatedStudent.roll_number}</p>
+                                <p>{updatedStudent.contact}</p>
+                                <p>{updatedStudent.address}</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    :
+                    <p>Click above to Update the student</p>}
+                    
+                </div>}
+                
+                    
             </div>
 
         </div>
