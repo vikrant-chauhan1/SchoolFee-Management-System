@@ -21,6 +21,7 @@ const Students = ()=>{
     const [updatedStudent,setUpdatedStudent] = useState(null);
     const [idToUpdateStudent,setIdToUpdateStudent] = useState("");
     const [updateModal,setUpdateModal] = useState(false);
+    const [deleteConfirmation, setDeleteConfirmation] = useState(null);
 
 
     // GET FUNC
@@ -121,7 +122,7 @@ const Students = ()=>{
 
     }
 
-    // POST FUNC
+    // POST REQUESTS
     // ADDING A STUDENT
     const addStudent = async(e)=>{
         e.preventDefault();
@@ -208,11 +209,30 @@ const Students = ()=>{
         }
     }
 
+    // DELETE REQUESTS
+    // DELETING A STUDENT USING ID
+    const deleteStudent= async(e)=>{
+        const token = localStorage.getItem("token");
+        if(!id){
+            alert("please fill the required field");
+            return
+        }
+        try {
+            const res = await axios.delete(`http://localhost:5000/api/student/${id}`,
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+        )
+        setDeleteConfirmation(res.data);
+        } catch (error) {
+            console.error(error);
+            setDeleteConfirmation(error);
+            
+        }
 
-
-
-
-
+    }
 
 
     return(
