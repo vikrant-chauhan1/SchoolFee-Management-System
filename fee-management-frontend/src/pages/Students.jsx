@@ -12,12 +12,14 @@ const Students = ()=>{
     const [studentByClass,SetStudentByClass]= useState([]);
     const [error2,setError2] = useState(null);
     const [studentClass,setStudentClass] = useState("");
-    const [addedStudent,setAddedStudent]=useState([]);
+    const [addedStudent,setAddedStudent]=useState(null);
     const [name,setName] = useState(""); 
     const [studentClassToAdd,setStudentClassToAdd] = useState("");
     const [roll_number,setRoll_number] = useState("");
     const [contact,setContact] = useState("");
     const [address,setAddress] = useState("");
+    const [updatedStudent,setUpdatedStudent] = useState(null);
+    const [idToUpdateStudent,setIdToUpdateStudent] = useState("");
 
 
     // GET FUNC
@@ -119,9 +121,11 @@ const Students = ()=>{
     }
 
     // POST FUNC
+    // ADDING A STUDENT
     const addStudent = async(e)=>{
+        e.preventDefault();
         const token = localStorage.getItem("token");
-        setAddedStudent([]);
+        setAddedStudent(null);
         
         try {
             const res = await axios.post(`http://localhost:5000/api/students`,
@@ -140,11 +144,52 @@ const Students = ()=>{
                 
                 
             )
+            console.log(res.data);
             setAddedStudent(res.data);
         } catch (error) {
             console.error(error);
         }
+    };
+
+    //PUT REQEUSTS
+    // UPDATING A REQUESTS
+
+    const updateStudent = async(e)=>{
+        e.preventDefault();
+        setName("");
+        setStudentClassToAdd("");
+        setRoll_number("");
+        setContact("");
+        setAddress("")
+        const token = localStorage.getItem("token");
+        setUpdatedStudent(null);
+        try {
+            const res = await axios.put(`http://localhost:5000/api/student/${idToUpdateStudent}`,
+                {
+                    name,
+                    class:studentClassToAdd,
+                    roll_number,
+                    contact,
+                    address
+
+                },
+                {
+                    headers:{
+                        Authorization:`Bearer ${token}` 
+
+                    }
+                }
+            )
+            setUpdatedStudent(res.data);
+
+
+
+        } catch {
+            console.error(error);
+            
+        }
     }
+
 
 
 
@@ -248,11 +293,21 @@ const Students = ()=>{
                 </form>
 
                 <div>
-                    {addedStudent.length > 0
+                    {addedStudent
                         ?
-                    <div> {addedStudent.map((s,index)=>(
-                        <li key={index}><h3>{s.name}</h3> <p>Roll No: {s.roll_number}</p> <p>Class: {s.class}</p> <p>Contact: {s.contact}</p><p>Address: {s.address}</p></li>
-                    ))} </div>
+                    <div> 
+                        <ul>
+                            <li>
+                                <h3>{addedStudent.name}</h3> 
+                                <p>Roll No: {addedStudent.roll_number}</p> 
+                                <p>Class: {addedStudent.class}</p> 
+                                <p>Contact: {addedStudent.contact}</p>
+                                <p>Address: {addedStudent.address}</p>
+
+                                <h3>Student added successfully </h3>
+                            </li>
+                        </ul>
+                    </div>
                         :
                     <p>fill the form to add student</p>}
                 </div>
