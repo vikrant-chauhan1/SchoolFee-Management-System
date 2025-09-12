@@ -218,14 +218,14 @@ const Students = ()=>{
             return
         }
         try {
-            const res = await axios.delete(`http://localhost:5000/api/student/${id}`,
-            {
-                headers:{
-                    Authorization:`Bearer ${token}`
+            const res = await axios.delete(`http://localhost:5000/api/students/${id}`,
+                {
+                    headers:{
+                        Authorization:`Bearer ${token}`
+                    }
                 }
-            }
-        )
-        setDeleteConfirmation(res.data);
+            )
+            setDeleteConfirmation(res.data.message);
         } catch (error) {
             console.error(error);
             setDeleteConfirmation(error);
@@ -389,6 +389,15 @@ const Students = ()=>{
                     
             </div>
             <div>
+                <input type="text" placeholder="Enter id to delete" required value={id} onChange={(e)=>setId(e.target.value)}  />
+                <button onClick={deleteStudent}>Delete</button>
+                {deleteConfirmation
+                    ?
+                <div><p>{deleteConfirmation}</p></div> 
+                    :
+                <div>Enter id and submit to delete a student</div>
+
+                }
 
             </div>
 
