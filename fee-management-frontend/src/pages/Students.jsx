@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axios from "axios"
+import axios from "axios";
+import Navbar from "../components/Navbar"
 
 const Students = ()=>{
     const [students,setStudents] = useState([]);
@@ -237,6 +238,7 @@ const Students = ()=>{
 
     return(
         <div>
+            <Navbar />
             <div>
                 <button onClick={getAllStudents}>Get All Students</button> 
                 <ul>
