@@ -15,3 +15,29 @@ export const AddFee = async(req,res)=>{
     }
 
 };
+export const getFees = async (req,res) =>{
+    const id = req.params.id;
+    try {
+        const result = await pool.query(
+            `SELECT 
+                fees.student_id,
+                students.name,
+                students.class,
+                students.contact,
+                fees.year,
+                fees.amount,
+                fees.paid_amount,
+                fees.status
+                
+            FROM fees
+            JOIN students ON fees.student_id = students.id
+            WHERE fees.student_id = $1
+            `,[id]
+        );
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message:"Error fetching fee data (inetrnal server error)"});
+        
+    }
+};
