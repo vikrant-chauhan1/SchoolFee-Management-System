@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import adminRoutes from "./routes/adminRoutes.js"
 import studentRoutes from "./routes/studentRoutes.js"
+import feeRoutes from "./routes/feeRoutes.js"
 
 const app = express();
 

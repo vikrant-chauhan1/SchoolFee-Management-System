@@ -2,7 +2,7 @@ import pool from "../db.js"
 
 // API FOR MANAGING THE FEE OF STUDENTS
 
-export const AddFee = async()=>{
+export const AddFee = async(req,res)=>{
     const id= req.params.id;
     const {student_id,year,amount,paid_amount,status}= req.body;
     try {
@@ -14,4 +14,4 @@ export const AddFee = async()=>{
         
     }
 
-}
+};
