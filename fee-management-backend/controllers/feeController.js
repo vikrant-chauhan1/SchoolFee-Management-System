@@ -1,7 +1,9 @@
 import pool from "../db.js"
 
-// API FOR MANAGING THE FEE OF STUDENTS
+// MANAGING THE FEE OF STUDENTS
 
+
+// ADDING A STUDENT FEE RECORD
 export const AddFee = async(req,res)=>{
     const id= req.params.id;
     const {student_id,year,amount,paid_amount,status}= req.body;
@@ -15,6 +17,8 @@ export const AddFee = async(req,res)=>{
     }
 
 };
+
+//GETTING FEE RECORD FOR A STUDENT 
 export const getFees = async (req,res) =>{
     const id = req.params.id;
     try {
@@ -41,3 +45,28 @@ export const getFees = async (req,res) =>{
         
     }
 };
+
+// UPDATING THE FEE RECORD OF A STUDENT
+
+export const UpdateFeeRecord = async(req,res) =>{
+    const{year,amount,paid_amount,status} = req.body; // destructuring the object received from frontend 
+    const id = req.params.id;
+    try {
+        const result = await pool.query(`
+                UPDATE fees 
+                SET year=$1,
+                    amount=$2,
+                    paid_amount=$3,
+                    status=$4
+                WHERE student_id=$5 RETURNING *
+
+            `,[year,amount,paid_amount,status,id]
+        );
+        res.status(200).json(result.rows[0]);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message:"cannot update student (internal server error)"})
+        
+    }
+}
