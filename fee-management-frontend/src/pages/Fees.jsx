@@ -4,6 +4,7 @@ import axios from "axios";
 const Fees = ()=>{
     const [feeRecord,setFeeRecord] = useState(null);
     const [id,setId] = useState("")
+    
 
     const getFees = async()=>{
         const token = localStorage.getItem("token")
@@ -21,6 +22,25 @@ const Fees = ()=>{
             console.log(error);
             
         }
+    }
+
+    const updateFeeRecord = async()=>{
+        const token = localStorage.getItem("token");
+        const result = await axios.put(`http://localhost:5000/api/fees/${id}`,
+            {
+                year,
+                amount,
+                paid_status,
+                status
+            },
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+        )
+
+
     }
 
     return(
