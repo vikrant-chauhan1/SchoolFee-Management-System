@@ -2,13 +2,36 @@ import pool from "../db.js"
 
 // MANAGING THE FEE OF STUDENTS
 
-
+// GETTING ALL THE DUE STUDENTS 
+export const getAllDueStudents = async(req,res)=>{
+    try {
+        const result = await pool.query(`
+            SELECT 
+                fees.student_id,
+                students.name,
+                students.contact,
+                students.class,
+                fees.year,
+                fees.paid_amount,
+                fees.amount,
+                fees.status
+            FROM fees
+            JOIN students ON fees.student_id= students.id
+            WHERE fees.amount > fees.paid_amount
+        `);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message:"Error getting fee due students"})
+        
+    }
+}
 // ADDING A STUDENT FEE RECORD
 export const AddFee = async(req,res)=>{
     const id= req.params.id;
-    const {student_id,year,amount,paid_amount,status}= req.body;
+    const {year,amount,paid_amount,status}= req.body;
     try {
-        const result = await pool.query("INSERT INTO fees (student_id,year,amount,paid_amount,status) VALUES ($1,$2,$3,$4,$5) RETURNING *",[student_id,year,amount,paid_amount,status]);
+        const result = await pool.query("INSERT INTO fees (student_id,year,amount,paid_amount,status) VALUES ($1,$2,$3,$4,$5) RETURNING *",[id,year,amount,paid_amount,status]);
         res.status(201).json(result.rows[0]);
     } catch (error) {
         console.error(error)
