@@ -11,6 +11,24 @@ const Fees = ()=>{
         paid_amount:"",
         status:""
     })
+    const [dueStudents,setDueStudents] = useState([]);
+
+    const getDueStudents = async()=>{
+        const token = localStorage.getItem("token");
+        try {
+            const result = await axios.get("http://localhost:5000/api/fees",
+                {
+                    headers:{
+                        Authorization:`Bearer ${token}`
+                    }
+                }
+            )
+            setDueStudents(result.data);
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
 
     const getFees = async()=>{
         const token = localStorage.getItem("token")
@@ -63,6 +81,25 @@ const Fees = ()=>{
 
     return(
         <div>
+            <div>
+                <button onClick={getDueStudents}>Fetch all due students</button>
+                <div>
+                    {dueStudents.length >0? 
+                     <div>
+                        <h1>Number of due Students : {dueStudents.length}</h1>
+                        <div>
+                            {dueStudents.map((s,student_id)=>(
+                                <ul>
+                                    <li key={student_id}>Name:{s.name} Contact:{s.contact} Class:{s.class} year:{2025} Paid Amount:{s.paid_amount} Due Amount:{s.amount} Status:{s.status}</li>
+                                </ul>
+                            ))}
+                        </div>
+                     </div>
+                    :
+                        <div></div>
+                    }
+                </div>
+            </div>
             <div>
                 <h3>Get fee record</h3>
                 <br></br>
