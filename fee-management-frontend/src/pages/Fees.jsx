@@ -79,27 +79,54 @@ const Fees = ()=>{
         }))
     }
 
-    return(
+return(
         <div>
-            <div>
-                <button onClick={getDueStudents}>Fetch all due students</button>
-                <div>
-                    {dueStudents.length >0? 
-                     <div>
-                        <h1>Number of due Students : {dueStudents.length}</h1>
-                        <div>
-                            {dueStudents.map((s,student_id)=>(
-                                <ul>
-                                    <li key={student_id}>Name:{s.name} Contact:{s.contact} Class:{s.class} year:{2025} Paid Amount:{s.paid_amount} Due Amount:{s.amount} Status:{s.status}</li>
-                                </ul>
-                            ))}
-                        </div>
-                     </div>
-                    :
-                        <div></div>
-                    }
-                </div>
-            </div>
+            <div className="bg-white shadow rounded-lg p-6 space-y-4">
+        <button
+          onClick={getDueStudents}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Fetch All Due Students
+        </button>
+        {dueStudents.length > 0 && (
+          <div>
+            <h1 className="text-xl font-semibold mb-4">
+              Number of Due Students: {dueStudents.length}
+            </h1>
+            <ul className="space-y-3">
+              {dueStudents.map((s, student_id) => (
+                <li
+                  key={student_id}
+                  className="border rounded-lg p-3 bg-gray-50"
+                >
+                  <p>
+                    <span className="font-semibold">Name:</span> {s.name}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Contact:</span> {s.contact}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Class:</span> {s.class}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Year:</span> 2025
+                  </p>
+                  <p>
+                    <span className="font-semibold">Paid Amount:</span>{" "}
+                    {s.paid_amount}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Due Amount:</span> {s.amount}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Status:</span> {s.status}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
             <div>
                 <h3>Get fee record</h3>
                 <br></br>
@@ -153,6 +180,7 @@ const Fees = ()=>{
 
         </div>
     );
+
 
 };
 
