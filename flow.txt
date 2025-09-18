@@ -3,31 +3,33 @@ things are going to flow tis way in the app:
 -> the admin will be hardcoded for authentication 
 -> will have a student, user tables for records and admin logins , fee tables for amounts, paid status date method etc 
 -> flow will be that admin will login thru hard coded data and there will be CRUD operations like adding deleting students marking them as paid and issue the notices for fees
--> phases 1 :
-🟢 Phase 1 – Basic Fee Management
-🎓 Student Management
-➕ Add new students
 
-📝 Edit student details (name, class, contact, etc.)
 
-❌ Delete student
+➕   authentication {this is done}
 
-🔍 Search/filter students by name, class, roll no.
+🎓 Student Management {this is done}
 
-💸 Fee Management
-💰 Assign fee structure to a student or class
+➕ Add new students {this is done}
 
-✅ Mark fees as paid (full or partial)
+📝 Edit student details (name, class, contact, etc.) {this is done}
 
-📅 Set due dates
+❌ Delete student {this is done}
 
-📤 Upload receipts (or auto-generate)
+🔍 Search/filter students by name, class, roll no. {this is done}
 
-📊 Reports
-📄 View payment status (paid/pending/partial)
+💰 Assign fee structure to a student or class{this is done}
+
+✅ Mark fees as paid (full or partial) {this is done}
+
+📄 View payment status (paid/pending/partial){this is done}
 
 📆 Monthly or class-wise fee collection summary
 
 📥 Export to PDF/Excel
 
 
+📅 Set due dates
+
+📤 Upload receipts (or auto-generate)
+
+📊 Reports
