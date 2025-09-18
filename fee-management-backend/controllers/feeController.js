@@ -92,4 +92,34 @@ export const UpdateFeeRecord = async(req,res) =>{
         res.status(500).json({message:"cannot update student (internal server error)"})
         
     }
+};
+
+// getting Fee records of a student 
+
+export const getPaymentRecords = async(req,res)=>{
+    const id = req.params.id;
+    try {
+        const result = await pool.query(`
+            SELECT 
+                payments.student_id,
+                students.name,
+                students.class,
+                students.contact,
+                payments.amount_paid,
+                payments.paid_at,
+                payments.method,
+                payments.receipt_no
+            FROM payments
+            JOIN students ON payments.student_id = students.id
+            WHERE payments.student_id = $1
+
+            
+        `,[id]);
+        res.status(200).json(result.rows);
+
+    } catch (error) {
+        console.error(error);
+        alert("Error fetching payment records");
+    }
+
 }
