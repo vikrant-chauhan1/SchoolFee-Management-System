@@ -94,7 +94,7 @@ export const UpdateFeeRecord = async(req,res) =>{
     }
 };
 
-// getting Fee records of a student 
+// getting payments records of a student 
 
 export const getPaymentRecords = async(req,res)=>{
     const id = req.params.id;

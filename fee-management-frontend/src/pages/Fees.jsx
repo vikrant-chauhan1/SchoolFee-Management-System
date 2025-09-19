@@ -12,6 +12,8 @@ const Fees = ()=>{
         status:""
     })
     const [dueStudents,setDueStudents] = useState([]);
+    const [paymentRecord,setPaymentRecord]= useState([]);
+    
 
     const getDueStudents = async()=>{
         const token = localStorage.getItem("token");
@@ -70,6 +72,22 @@ const Fees = ()=>{
         }
         
     };
+
+    const getPaymentRecord = async(e)=>{
+      const token = localStorage.getItem("token");
+      try {
+        const result = await axios.get(`http://localhost:5000/api/fees/payments/${id}`,
+          {
+            headers:{
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+        setPaymentRecord(result.data)
+      } catch (error) {
+        
+      }
+    }
 
     const handleChange =(e)=>{
         const {name,value} = e.target;
@@ -176,6 +194,24 @@ return(
                 </div>
                 :
                 <p>Enter the details above to update fee records</p>}
+            </div>
+            <div>
+              <input type="text" placeholder="enter id to get payment record" onChange={setId} value={id} />
+              <button onClick={getPaymentRecord}>Submit</button>
+
+              <div>
+                {paymentRecord.length > 0 : paymentRecord.map((s,index)=>(
+                  <ul>
+                    <li>{s.name}</li>
+                    <li>{s.class}</li>
+                    <li>{s.contact}</li>
+                    <li>{s.amount_paid}</li>
+                    <li>{s.paid_at}</li>
+                    <li>{s.method}</li>
+                    <li>{s.receipt_no}</li>
+                  </ul>
+                )) : <p>nothing to see here</p>}
+              </div>
             </div>
 
         </div>
