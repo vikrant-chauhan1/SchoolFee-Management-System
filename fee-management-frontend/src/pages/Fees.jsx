@@ -196,21 +196,28 @@ return(
                 <p>Enter the details above to update fee records</p>}
             </div>
             <div>
-              <input type="text" placeholder="enter id to get payment record" onChange={setId} value={id} />
+              <input type="text" placeholder="enter id to get payment record" onChange={(e)=>setId(e.target.value)} value={id} />
               <button onClick={getPaymentRecord}>Submit</button>
 
               <div>
-                {paymentRecord.length > 0 : paymentRecord.map((s,index)=>(
-                  <ul>
-                    <li>{s.name}</li>
-                    <li>{s.class}</li>
-                    <li>{s.contact}</li>
-                    <li>{s.amount_paid}</li>
-                    <li>{s.paid_at}</li>
-                    <li>{s.method}</li>
-                    <li>{s.receipt_no}</li>
+                {paymentRecord.length > 0 ?
+                  <div>
+                    {paymentRecord.map((s,index)=>(
+                    <ul>
+                    <li key={index}>{s.name}</li>
+                    <li key={index}>{s.class}</li>
+                    <li key={index}>{s.contact}</li>
+                    <li key={index}>{s.amount_paid}</li>
+                    <li key={index}>{s.paid_at}</li>
+                    <li key={index}>{s.method}</li>
+                    <li key={index}>{s.receipt_no}</li>
                   </ul>
-                )) : <p>nothing to see here</p>}
+                ))}
+
+                  </div>
+                 :
+                  <p>nothing to see here</p>
+                }
               </div>
             </div>
 
