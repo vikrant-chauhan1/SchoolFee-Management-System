@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 const Fees = ()=>{
     const [feeRecord,setFeeRecord] = useState(null);
     const [id,setId] = useState("")
@@ -16,7 +17,7 @@ const Fees = ()=>{
     
 
     const getDueStudents = async()=>{
-        const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
         try {
             const result = await axios.get("http://localhost:5000/api/fees",
                 {
@@ -87,6 +88,20 @@ const Fees = ()=>{
       } catch (error) {
         
       }
+    };
+
+    const handleDownload = async()=>{
+      const element = document.getElementById("receipt-element");
+      const canvas = await html2canvas(element,{scale:2});
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdf = new jsPDF("p","mm","a4");
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData,"PNG",0,0,pdfWidth,pdfHeight);
+      pdf.save(`receipt-${paymentRecord.receipt_no}.pdf`)
     }
 
     const handleChange =(e)=>{
@@ -201,16 +216,18 @@ return(
 
               <div>
                 {paymentRecord.length > 0 ?
-                  <div>
+                  <div >
                     {paymentRecord.map((s,index)=>(
-                    <ul>
-                    <li key={index}>{s.name}</li>
-                    <li key={index}>{s.class}</li>
-                    <li key={index}>{s.contact}</li>
-                    <li key={index}>{s.amount_paid}</li>
-                    <li key={index}>{s.paid_at}</li>
-                    <li key={index}>{s.method}</li>
-                    <li key={index}>{s.receipt_no}</li>
+                    <ul id="receipt-element">
+                    <li key={index}> <strong>Name:</strong>{s.name}</li>
+                    <li key={index}><strong>Class:</strong>{s.class}</li>
+                    <li key={index}><strong>Contact:</strong>{s.contact}</li>
+                    <li key={index}><strong>Amount Paid:</strong>{s.amount_paid}</li>
+                    <li key={index}><strong>Paid At:</strong>{s.paid_at}</li>
+                    <li key={index}><strong>Method:</strong>{s.method}</li>
+                    <li key={index}><strong>Receipt Number:</strong>{s.receipt_no}</li>
+
+                    <button onClick={handleDownload}>Print Receipt</button>
                   </ul>
                 ))}
 
