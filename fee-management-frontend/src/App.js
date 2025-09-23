@@ -18,7 +18,7 @@ const App=()=>{
     <BrowserRouter>
 
       <Routes>
-        <Route path="/" element={isAdmin? <Dashboard onLogout={()=>setIsAdmin(false)} /> : <Login onLogin={()=>setIsAdmin(true)}/>}/>
+        <Route index element={isAdmin? <Dashboard onLogout={()=>setIsAdmin(false)} /> : <Login onLogin={()=>setIsAdmin(true)}/>}/>
         <Route path="/dashboard" element={isAdmin ? <Dashboard onLogout={()=>setIsAdmin(false)}/> : <Navigate to="/"/>}/>
         <Route path="/login" element={isAdmin? <Navigate to="/dashboard" /> : <Login onLogin={()=>setIsAdmin(true)}/>} />
         <Route path="/students" element={isAdmin? <Students /> : <Navigate to="/login"/>} />
