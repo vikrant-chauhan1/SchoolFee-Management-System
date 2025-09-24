@@ -10,4 +10,24 @@ export const AuthProvider = ({children})=>{
         setIsAdmin(!!token);// it is simple suppose when ther eis no token in LS then LS return null and !null will be true and one more ! will make it false 
     },[]);
 
-}
+    const login = ()=>{
+        localStorage.getItem("token");
+        setIsAdmin(true);
+    };
+
+    const logout =()=>{
+        localStorage.removeItem("token");
+        setIsAdmin(false);
+    }
+
+    return(
+        <AuthContext.Provider value={{isAdmin,login,logout}}>
+            {children}
+        </AuthContext.Provider>
+    );
+
+
+};
+
+export default AuthContext;
+
