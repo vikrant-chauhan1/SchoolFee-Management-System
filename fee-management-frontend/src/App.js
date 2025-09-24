@@ -3,7 +3,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Students from "./pages/Students";
 import Fees from "./pages/Fees"
-import {  useState,useEffect } from "react";
+import {  useState,useEffect,useContext } from "react";
+import { AuthProvider } from "./context/AuthContext";
 
 const App=()=>{
   
