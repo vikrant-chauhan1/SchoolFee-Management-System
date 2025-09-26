@@ -1,41 +1,23 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext.js";
 
-const Login = ({onLogin}) => {
+const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const {login} = useContext(AuthContext)
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({  username:userName,password: password }),
-      });
-
-      const data = await res.json();
-
-      console.log(data);
-      
-      
-
-      if (data.success) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("adminUser",JSON.stringify(data.adminInfo)); 
-        onLogin();
-        //we are using the stringify because loacal storage only stores strings and if we put object in LS it will crash 
-        // thus we use stringify to serialize it and it works for token above because token is already a string P
-
-        navigate("/dashboard");
-      } else {
-        alert("invalid credentials")
-      }
+      await login(userName,password);
+      navigate("/dashboard");
+    
     } catch (error) {
       console.error("Error during login:", error);
-      alert("Server error try again ")
+      alert("Error during login ")
     }
   };
 
