@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 const Fees = ()=>{
+    const [feeToBeCollectedData,setFeeToBeCollectedData] = useState(0);
+    const [feeCollectedData,setFeeCollectedData] = useState(0);
     const [feeRecord,setFeeRecord] = useState(null);
     const [id,setId] = useState("")
     const [updatedFeeRecord,setUpdatedFeeRecord] = useState(null);
@@ -15,6 +17,33 @@ const Fees = ()=>{
     const [dueStudents,setDueStudents] = useState([]);
     const [paymentRecord,setPaymentRecord]= useState([]);
     
+    useEffect(()=>{
+      const getFeeToBeCollectedData = async()=>{
+          try {
+            const token = localStorage.getItem("token");
+            const result = await axios.get("http://localhost:5000/api/fees",
+
+              {
+                headers:{
+                  Authorization:`Bearer ${token}`
+                }
+              }
+            );
+          const feeData = result.data;
+          console.log("bro here is the use effect data ",feeData)
+          const totalFees = feeData.reduce((acc,student)=> acc + Number(student.amount),0);
+          console.log(totalFees)
+          setFeeToBeCollectedData(totalFees)
+          
+        } catch (error) {
+          console.error(error);
+
+        }
+        
+      }
+
+      getFeeToBeCollectedData();
+    },[]);
 
     const getDueStudents = async()=>{
       const token = localStorage.getItem("token");
@@ -113,7 +142,16 @@ const Fees = ()=>{
     }
 
 return(
+       
+       
+       <div>
+
         <div>
+          {feeToBeCollectedData ? <h1>Fee Due : {feeToBeCollectedData}</h1>:<p>Loading...</p>}
+        </div>
+
+
+
             <div className="bg-white shadow rounded-lg p-6 space-y-4">
         <button
           onClick={getDueStudents}
